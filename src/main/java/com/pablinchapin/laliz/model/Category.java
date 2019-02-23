@@ -32,6 +32,10 @@ public class Category {
     @NotNull(message="Category active is required")
     private boolean active;
 
+    public Category() {
+    }
+
+    
     public Category(Long id, String name, String pictureUrl, boolean active) {
         this.id = id;
         this.name = name;

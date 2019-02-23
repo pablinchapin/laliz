@@ -5,12 +5,18 @@
  */
 package com.pablinchapin.laliz.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  *
@@ -24,23 +30,39 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotNull(message = "Product category is required")
-    private Long categoryId;
-    
     @NotNull(message = "Product name is required")
     @Basic(optional = false)
     private String name;
     
+    @NotNull(message = "Product description is required")
+    @Basic(optional = false)
+    private String description;
+    
     private Double price;
     
     private String pictureUrl;
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "category_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Category category;
 
-    public Product(Long id, Long categoryId, String name, Double price, String pictureUrl) {
+    public Product() {
+    }
+
+    
+    
+    
+    
+    public Product(Long id, String name, String description, Double price, String pictureUrl, Category category) {
         this.id = id;
-        this.categoryId = categoryId;
         this.name = name;
+        this.description = description;
         this.price = price;
         this.pictureUrl = pictureUrl;
+        this.category = category;
     }
 
     public Long getId() {
@@ -51,20 +73,20 @@ public class Product {
         this.id = id;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Double getPrice() {
@@ -82,7 +104,17 @@ public class Product {
     public void setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
     }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     
+
     
     
     
