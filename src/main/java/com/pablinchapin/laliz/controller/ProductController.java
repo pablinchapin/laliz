@@ -41,4 +41,12 @@ public class ProductController {
     ){
         return productService.getAllProductsByCategoryId(categoryId);
     }
+    
+    
+    @GetMapping(value = {"/{productId}"})
+    public @NotNull Product getProduct(
+            @PathVariable Long productId
+    ){
+        return productService.getProduct(productId);
+    }
 }
